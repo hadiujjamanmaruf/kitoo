@@ -7,28 +7,23 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <!-- Modern Icons -->
 <script src="https://unpkg.com/@phosphor-icons/web"></script>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- PDF Generator -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
 :root {
-  --bg: #f4f7f6; 
-  --paper: #ffffff; 
-  --ink: #1a1612; 
-  --accent: #b5451b;
-  --gold: #c9922a; 
-  --muted: #7a6f64; 
-  --line: #e2d9cc; 
-  --soft: #f2ece3;
-  --sidebar-bg: #111111;
-  --sidebar-hover: #222222;
-  --green: #2a6b45; 
-  --red: #c0392b; 
-  --shadow: 0 4px 20px rgba(0,0,0,0.05);
+  --bg: #f4f7f6; --paper: #ffffff; --ink: #1a1612; --accent: #b5451b;
+  --gold: #c9922a; --muted: #7a6f64; --line: #e2d9cc; --soft: #f2ece3;
+  --sidebar-bg: #111111; --sidebar-hover: #222222;
+  --green: #2a6b45; --red: #c0392b; --shadow: 0 4px 20px rgba(0,0,0,0.05);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--bg); font-family: 'DM Sans', sans-serif; color: var(--ink); display: flex; height: 100vh; overflow: hidden; }
 
-/* ── SCREENS (FIXED) ── */
+/* ── SCREENS ── */
 #screen-login { display: none; width: 100%; align-items: center; justify-content: center; background: var(--bg); z-index: 1000; position: fixed; inset: 0; }
 #screen-app { display: none; width: 100%; height: 100vh; }
 .active-screen { display: flex !important; }
@@ -37,40 +32,34 @@ body { background: var(--bg); font-family: 'DM Sans', sans-serif; color: var(--i
 .login-box { background: var(--paper); padding: 40px; border-radius: 16px; box-shadow: var(--shadow); width: 100%; max-width: 400px; text-align: center; border: 1px solid var(--line); }
 .login-brand { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; color: var(--ink); margin-bottom: 5px; display:flex; align-items:center; justify-content:center; gap:8px; }
 .login-brand i { color: var(--accent); }
-.login-brand span { color: var(--accent); }
 .login-sub { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 30px; }
 .login-input { width: 100%; padding: 14px; margin-bottom: 15px; border: 1px solid var(--line); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 14px; background: var(--soft); outline: none; transition: 0.2s; }
 .login-input:focus { border-color: var(--accent); }
-.login-btn { width: 100%; background: var(--accent); color: #fff; border: none; padding: 14px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 15px; cursor: pointer; transition: 0.2s; display:flex; align-items:center; justify-content:center; gap:8px; }
+.login-btn { width: 100%; background: var(--accent); color: #fff; border: none; padding: 14px; border-radius: 8px; font-weight: 600; font-size: 15px; cursor: pointer; transition: 0.2s; display:flex; align-items:center; justify-content:center; gap:8px; }
 .login-btn:hover { background: #8e2e0f; }
 
 /* ── SIDEBAR ── */
-.sidebar { width: 260px; background: var(--sidebar-bg); color: #fff; display: flex; flex-direction: column; transition: 0.3s; z-index: 100; }
+.sidebar { width: 260px; background: var(--sidebar-bg); color: #fff; display: flex; flex-direction: column; transition: 0.3s; z-index: 100; flex-shrink:0;}
 .sidebar-header { padding: 24px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 10px; }
 .sidebar-header .brand-icon { color: var(--gold); font-size: 28px; }
 .sidebar-header .brand-text { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; line-height: 1.1; }
 .sidebar-header .brand-text span { color: var(--accent); }
 .sidebar-header .brand-sub { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: 2px; text-transform: uppercase; color: #888; }
-
 .nav-menu { padding: 20px 12px; flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
 .nav-item { padding: 12px 16px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 12px; font-weight: 500; font-size: 14px; color: #aaa; transition: 0.2s; text-decoration: none; }
 .nav-item i { font-size: 20px; }
 .nav-item:hover { background: var(--sidebar-hover); color: #fff; }
 .nav-item.active { background: var(--accent); color: #fff; box-shadow: 0 4px 12px rgba(181,69,27,0.3); }
-
 .sidebar-footer { padding: 20px 12px; border-top: 1px solid rgba(255,255,255,0.1); }
 .logout-btn { background: rgba(255,0,0,0.1); color: #ffcccc; width: 100%; border: 1px solid rgba(255,0,0,0.2); justify-content: center; }
 .logout-btn:hover { background: rgba(255,0,0,0.3); color: #fff; }
 
 /* ── MAIN CONTENT ── */
 .main-content { flex: 1; display: flex; flex-direction: column; background: var(--bg); overflow: hidden; }
-
-/* ── TOPBAR ── */
-.topbar { background: var(--paper); height: 70px; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+.topbar { background: var(--paper); height: 70px; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); flex-shrink: 0;}
 .topbar-left { display: flex; align-items: center; gap: 16px; }
 .menu-toggle { display: none; font-size: 24px; cursor: pointer; color: var(--ink); }
 .page-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--ink); }
-
 .topbar-right { display: flex; align-items: center; gap: 20px; }
 .date-display { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--muted); font-weight: 700; background: var(--soft); padding: 6px 12px; border-radius: 6px; }
 .user-profile { display: flex; align-items: center; gap: 10px; }
@@ -79,44 +68,103 @@ body { background: var(--bg); font-family: 'DM Sans', sans-serif; color: var(--i
 .user-name { font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.2; }
 .user-role { font-size: 10px; color: var(--muted); }
 
-/* ── MODULES ── */
 .module-container { flex: 1; padding: 32px; overflow-y: auto; }
 .module { display: none; animation: fadeIn 0.3s ease; }
 .module.active { display: block; }
-
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* ── DASHBOARD PLACEHOLDER ── */
-.welcome-banner { background: linear-gradient(135deg, var(--ink), #2a241d); padding: 40px; border-radius: 16px; color: #fff; margin-bottom: 24px; position: relative; overflow: hidden; box-shadow: var(--shadow); }
-.welcome-banner h1 { font-family: 'Playfair Display', serif; font-size: 32px; margin-bottom: 8px; }
-.welcome-banner p { font-size: 14px; color: #ccc; max-width: 500px; line-height: 1.6; }
-.banner-icon { position: absolute; right: 40px; top: 50%; transform: translateY(-50%); font-size: 120px; color: rgba(255,255,255,0.05); }
+/* ── COMMON UI ── */
+.module-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap:16px;}
+.module-header h2 { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+.header-actions { display: flex; gap: 10px; flex-wrap:wrap;}
+.primary-btn { background: var(--accent); color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
+.primary-btn:hover { background: #8e2e0f; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(181,69,27,0.3); }
+.secondary-btn { background: var(--soft); color: var(--ink); border: 1px solid var(--line); padding: 10px 20px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
+.secondary-btn:hover { background: #e2d9cc; }
+.success-btn { background: var(--green); color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
+.success-btn:hover { background: #1e5233; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(42,107,69,0.3); }
 
-/* TOAST */
-.toast { position: fixed; bottom: 30px; right: 30px; background: var(--ink); color: #fff; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 500; z-index: 9999; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); transform: translateY(100px); opacity: 0; visibility: hidden; display:flex; align-items:center; gap:8px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);}
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.stat-card { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 20px; box-shadow: var(--shadow); display:flex; flex-direction:column; justify-content:center; }
+.stat-icon { font-size: 24px; color: var(--gold); margin-bottom: 8px; }
+.stat-val { font-family: 'Space Mono', monospace; font-size: 26px; font-weight: 700; color: var(--ink); line-height: 1; }
+.stat-label { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-top: 6px; font-weight: 600; }
+
+.table-container { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); overflow-x: auto; margin-bottom:24px;}
+.data-table { width: 100%; border-collapse: collapse; min-width: 700px; }
+.data-table th { background: #fcfbfa; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); padding: 14px 20px; text-align: left; font-weight: 600; border-bottom: 1px solid var(--line); }
+.data-table td { padding: 14px 20px; font-size: 13px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.data-table tr:hover td { background: var(--soft); } 
+.data-table tr.clickable:hover td { cursor: pointer; }
+.category-badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+.amount-col { font-family: 'Space Mono', monospace; font-weight: 700; color: var(--ink); text-align:right;}
+.actions-cell { display:flex; gap:6px; align-items:center; }
+.action-btn { background: none; border: none; cursor: pointer; color: var(--muted); font-size: 18px; padding: 6px; border-radius: 6px; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
+.action-btn:hover { background: var(--soft); color: var(--accent); }
+.action-btn.del:hover { background: #fce8e6; color: var(--red); }
+.btn-stock { background: var(--soft); border: 1px solid var(--line); font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 600; padding: 6px 10px; border-radius: 6px; cursor:pointer; transition:0.2s;}
+.btn-stock:hover { background: var(--ink); color:#fff; border-color:var(--ink);}
+
+.status-good { color: var(--green); background: #e8f5e9; border: 1px solid #c8e6c9; }
+.status-low { color: #d84315; background: #fff3e0; border: 1px solid #ffe0b2; }
+.status-out { color: var(--red); background: #fce4ec; border: 1px solid #f8bbd0; }
+
+/* ── MODALS & TOAST ── */
+.toast { position: fixed; bottom: 30px; right: 30px; background: var(--ink); color: #fff; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 500; z-index: 9999; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); transform: translateY(100px); opacity: 0; visibility: hidden; display:flex; align-items:center; gap:8px;}
 .toast.show { transform: translateY(0); opacity: 1; visibility: visible; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 900; opacity: 0; visibility: hidden; transition: 0.2s; backdrop-filter: blur(2px);}
+.modal-overlay.show { opacity: 1; visibility: visible; }
+.modal-box { background: var(--paper); border-radius: 16px; padding: 32px; max-width: 500px; width: 90%; box-shadow: 0 12px 48px rgba(0,0,0,0.2); transform: translateY(20px); transition: 0.3s; max-height: 90vh; overflow-y:auto;}
+.modal-overlay.show .modal-box { transform: translateY(0); }
+.modal-title { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 20px; display:flex; align-items:center; gap:8px; color: var(--ink); font-weight: 700;}
+.form-group { margin-bottom: 16px; text-align: left; }
+.form-group label { display: block; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
+.modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
+.modal-cancel { border: 1px solid var(--line); background: var(--soft); color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight:600; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition:0.2s;}
+.modal-confirm { border: none; background: var(--green); color: #fff; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition:0.2s;}
+.flex-row { display:flex; gap:10px; }
+.flex-row > div { flex:1; }
 
-/* ── RESPONSIVE ── */
+/* ── PROFILE / LAYOUT ── */
+.profile-card { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 24px; box-shadow: var(--shadow); margin-bottom: 24px; display: flex; gap: 24px; align-items: center; flex-wrap: wrap;}
+.profile-avatar { width: 80px; height: 80px; border-radius: 50%; background: var(--soft); display: flex; align-items: center; justify-content: center; font-size: 32px; color: var(--accent); font-weight: 700; font-family: 'Playfair Display', serif;}
+.profile-info { flex: 1; min-width: 200px;}
+.profile-balance { text-align: right; background: #fcfbfa; padding: 16px 24px; border-radius: 8px; border: 1px solid var(--line); }
+.ecosystem-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start;}
+.eco-panel { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; display:flex; flex-direction:column;}
+.eco-header { padding: 16px 20px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; background: #fcfbfa;}
+.eco-body { padding: 0; overflow-x: auto; }
+
+/* Cart System inside Modal */
+.cart-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 16px; border:1px solid var(--line);}
+.cart-table th { background: var(--soft); color: var(--muted); padding: 8px 12px; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 1px;}
+.cart-table td { padding: 8px 12px; border-bottom: 1px solid var(--line); }
+
+@media (max-width: 1000px) { .ecosystem-layout { grid-template-columns: 1fr; } }
 @media (max-width: 768px) {
   .sidebar { position: fixed; left: -260px; height: 100vh; }
   .sidebar.mobile-open { left: 0; box-shadow: 10px 0 30px rgba(0,0,0,0.2); }
-  .menu-toggle { display: block; }
-  .topbar { padding: 0 20px; }
-  .date-display, .user-info { display: none; }
-  .module-container { padding: 20px; }
-  .welcome-banner { padding: 24px; }
-  .welcome-banner h1 { font-size: 24px; }
-  .banner-icon { display: none; }
+  .menu-toggle { display: block; } .topbar { padding: 0 20px; }
+  .profile-card { flex-direction: column; text-align: center; }
+  .profile-balance { width: 100%; text-align: center; }
 }
 </style>
 </head>
 <body>
 
+<!-- 🌟 DATALISTS -->
+<datalist id="exp-category-list"></datalist>
+<datalist id="exp-spender-list"></datalist>
+<datalist id="inv-name-list"></datalist>
+<datalist id="prod-name-list"></datalist>
+<datalist id="ledger-name-list"></datalist>
+<datalist id="ledger-phone-list"></datalist>
+
 <!-- ════ LOGIN SCREEN ════ -->
 <div id="screen-login" class="active-screen">
   <div class="login-box">
     <div class="login-brand"><i class="ph-fill ph-sneaker"></i> Kitoo <span>ERP</span></div>
-    <div class="login-sub">Factory Management System</div>
+    <div class="login-sub">Ecosystem & POS</div>
     <input type="email" id="login-email" class="login-input" placeholder="Email Address">
     <input type="password" id="login-password" class="login-input" placeholder="Password">
     <button class="login-btn" onclick="handleLogin()"><i class="ph-bold ph-sign-in"></i> Access System</button>
@@ -125,8 +173,6 @@ body { background: var(--bg); font-family: 'DM Sans', sans-serif; color: var(--i
 
 <!-- ════ MAIN APP ════ -->
 <div id="screen-app">
-  
-  <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <i class="ph-fill ph-sneaker brand-icon"></i>
@@ -135,39 +181,21 @@ body { background: var(--bg); font-family: 'DM Sans', sans-serif; color: var(--i
         <div class="brand-sub">Factory System</div>
       </div>
     </div>
-    
     <div class="nav-menu">
-      <a class="nav-item active" onclick="switchModule('dashboard', 'Dashboard', this)">
-        <i class="ph-bold ph-squares-four"></i> Dashboard
-      </a>
-      <a class="nav-item" onclick="switchModule('inventory', 'Stock & Inventory', this)">
-        <i class="ph-bold ph-package"></i> Inventory
-      </a>
-      <a class="nav-item" onclick="switchModule('ledger', 'Party Ledger', this)">
-        <i class="ph-bold ph-book-bookmark"></i> Ledger Book
-      </a>
-      <a class="nav-item" onclick="switchModule('expense', 'Daily Expenses', this)">
-        <i class="ph-bold ph-receipt"></i> Expenses
-      </a>
-      <a class="nav-item" onclick="switchModule('payroll', 'Staff Payroll', this)">
-        <i class="ph-bold ph-users-three"></i> Payroll
-      </a>
-      <a class="nav-item" onclick="switchModule('cashbank', 'Cash & Bank', this)">
-        <i class="ph-bold ph-bank"></i> Cash & Bank
-      </a>
+      <a class="nav-item active" onclick="switchModule('dashboard', 'Dashboard', this)"><i class="ph-bold ph-squares-four"></i> Dashboard</a>
+      <a class="nav-item" onclick="switchModule('sales', 'Sales & Invoices', this)"><i class="ph-bold ph-receipt"></i> Sales Report</a>
+      <a class="nav-item" onclick="switchModule('ledger', 'Customers & Ledger', this)"><i class="ph-bold ph-users"></i> Customers & Ledger</a>
+      <a class="nav-item" onclick="switchModule('products', 'Product List', this)"><i class="ph-bold ph-sneaker"></i> Product List</a>
+      <a class="nav-item" onclick="switchModule('inventory', 'Raw Materials', this)"><i class="ph-bold ph-package"></i> Raw Materials</a>
+      <a class="nav-item" onclick="switchModule('payroll', 'Staff Payroll', this)"><i class="ph-bold ph-users-three"></i> Staff Payroll</a>
+      <a class="nav-item" onclick="switchModule('expense', 'Daily Expenses', this)"><i class="ph-bold ph-wallet"></i> Expenses</a>
     </div>
-
     <div class="sidebar-footer">
-      <button class="nav-item logout-btn" onclick="handleLogout()">
-        <i class="ph-bold ph-power"></i> Log Out
-      </button>
+      <button class="nav-item logout-btn" onclick="handleLogout()"><i class="ph-bold ph-power"></i> Log Out</button>
     </div>
   </aside>
 
-  <!-- MAIN CONTENT -->
   <main class="main-content">
-    
-    <!-- TOPBAR -->
     <header class="topbar">
       <div class="topbar-left">
         <i class="ph-bold ph-list menu-toggle" onclick="toggleSidebar()"></i>
@@ -176,146 +204,481 @@ body { background: var(--bg); font-family: 'DM Sans', sans-serif; color: var(--i
       <div class="topbar-right">
         <div class="date-display" id="current-date">-- --- ----</div>
         <div class="user-profile">
-          <div class="user-info">
-            <span class="user-name">Hadiujjaman Maruf</span>
-            <span class="user-role">Administrator</span>
-          </div>
+          <div class="user-info"><span class="user-name">Hadiujjaman Maruf</span><span class="user-role">Administrator</span></div>
           <div class="avatar">HM</div>
         </div>
       </div>
     </header>
 
-    <!-- MODULES CONTAINER -->
     <div class="module-container">
       
-      <!-- MODULE 1: DASHBOARD -->
+      <!-- 🌟 DASHBOARD 🌟 -->
       <section id="module-dashboard" class="module active">
-        <div class="welcome-banner">
-          <i class="ph-fill ph-buildings banner-icon"></i>
-          <h1>Welcome back, Hadi! 👋</h1>
-          <p>This is your custom Enterprise Resource Planning (ERP) system for Kitoo Shoes. All your factory data will be synchronized securely in the cloud.</p>
+        <div style="background: linear-gradient(135deg, var(--ink), #2a241d); padding: 40px; border-radius: 16px; color: #fff; margin-bottom: 24px; position: relative; overflow: hidden; box-shadow: var(--shadow);">
+          <i class="ph-fill ph-buildings" style="position: absolute; right: 40px; top: 50%; transform: translateY(-50%); font-size: 120px; color: rgba(255,255,255,0.05);"></i>
+          <h1 style="font-family: 'Playfair Display', serif; font-size: 32px; margin-bottom: 8px;">Welcome back, Hadi! 👋</h1>
+          <p style="font-size: 14px; color: #ccc; max-width: 500px; line-height: 1.6;" id="dash-alerts">Analyzing your factory data...</p>
         </div>
-        <p style="color: var(--muted); text-align: center; margin-top: 50px;">
-          Select a module from the left menu to start building...
-        </p>
+
+        <h3 style="font-family:'Playfair Display', serif; font-size:20px; margin-bottom:16px;">Business Overview</h3>
+        <div class="stats-grid">
+          <div class="stat-card" style="background: linear-gradient(to bottom right, #ffffff, #fdfbf8); border-color: var(--gold);">
+            <div class="stat-icon" style="color:var(--gold)"><i class="ph-fill ph-coins"></i></div><div class="stat-val" id="dash-market-due">৳ 0</div><div class="stat-label">Total Market Due</div>
+          </div>
+          <div class="stat-card" style="background: linear-gradient(to bottom right, #ffffff, #f2ece3); border-color: var(--accent);">
+            <div class="stat-icon" style="color:var(--accent)"><i class="ph-fill ph-package"></i></div><div class="stat-val" id="dash-stock-val">৳ 0</div><div class="stat-label">Finished Stock Value</div>
+          </div>
+          <div class="stat-card" style="background: linear-gradient(to bottom right, #ffffff, #fce4ec); border-color: var(--red);">
+            <div class="stat-icon" style="color:var(--red)"><i class="ph-fill ph-receipt"></i></div><div class="stat-val" id="dash-month-exp">৳ 0</div><div class="stat-label">Expenses This Month</div>
+          </div>
+          <div class="stat-card" style="background: linear-gradient(to bottom right, #ffffff, #e8f5e9); border-color: var(--green);">
+            <div class="stat-icon" style="color:var(--green)"><i class="ph-fill ph-users"></i></div><div class="stat-val" id="dash-staff-adv">৳ 0</div><div class="stat-label">Staff Advance</div>
+          </div>
+        </div>
+        
+        <h3 style="font-family:'Playfair Display', serif; font-size:20px; margin:24px 0 16px;">Quick Actions</h3>
+        <div style="display:flex; gap:16px; flex-wrap:wrap;">
+           <button class="primary-btn" onclick="openSaleModal()"><i class="ph-bold ph-shopping-cart"></i> New POS Sale</button>
+           <button class="success-btn" onclick="openLedgerModal()"><i class="ph-bold ph-user-plus"></i> Add Customer</button>
+           <button class="secondary-btn" onclick="openExpenseModal()"><i class="ph-bold ph-wallet"></i> Enter Expense</button>
+        </div>
       </section>
 
-      <!-- MODULE 2: INVENTORY -->
-      <section id="module-inventory" class="module">
-        <h2>📦 Inventory Management</h2>
-        <p>Coming soon...</p>
+      <!-- 🌟 SALES REPORT 🌟 -->
+      <section id="module-sales" class="module">
+        <div class="module-header">
+          <h2><i class="ph-fill ph-receipt"></i> Sales & Invoices Report</h2>
+          <button class="success-btn" onclick="openSaleModal()"><i class="ph-bold ph-shopping-cart"></i> New POS Sale</button>
+        </div>
+        <div class="table-container">
+          <table class="data-table">
+            <thead><tr><th>Date & Invoice ID</th><th>Customer Name</th><th>Items Summary</th><th style="text-align: right;">Grand Total</th><th style="text-align: center;">Status</th><th style="text-align: right;">Print</th></tr></thead>
+            <tbody id="sales-list"></tbody>
+          </table>
+        </div>
       </section>
 
-      <!-- MODULE 3: LEDGER -->
+      <!-- 🌟 LEDGER 🌟 -->
       <section id="module-ledger" class="module">
-        <h2>📓 Party Ledger</h2>
-        <p>Coming soon...</p>
+        <div class="module-header">
+          <h2><i class="ph-fill ph-users"></i> Customers & Party Ledger</h2>
+          <div class="header-actions">
+            <button class="success-btn" onclick="openSaleModal()"><i class="ph-bold ph-shopping-cart"></i> New POS Sale</button>
+            <button class="secondary-btn" onclick="downloadAllLedgerPDF()"><i class="ph-bold ph-download-simple"></i> Due List PDF</button>
+            <button class="primary-btn" onclick="openLedgerModal()"><i class="ph-bold ph-plus"></i> Add Party</button>
+          </div>
+        </div>
+        <div class="table-container">
+          <table class="data-table">
+            <thead><tr><th>Customer Info</th><th>Address</th><th style="text-align: right;">Total Due</th><th style="text-align: center;">Status</th><th style="text-align: right;">Action</th></tr></thead>
+            <tbody id="ledger-list"></tbody>
+          </table>
+        </div>
       </section>
 
-      <!-- MODULE 4: EXPENSE -->
-      <section id="module-expense" class="module">
-        <h2>🧾 Daily Expenses</h2>
-        <p>Coming soon...</p>
+      <!-- 🌟 LEDGER PROFILE 🌟 -->
+      <section id="module-ledger-profile" class="module">
+        <div class="module-header">
+          <h2><button class="action-btn" style="display:inline-flex; margin-right:8px;" onclick="backToLedgerList()"><i class="ph-bold ph-arrow-left"></i></button> Customer Profile</h2>
+          <div class="header-actions">
+            <button class="success-btn" onclick="openSaleModalFromProfile()"><i class="ph-bold ph-shopping-cart"></i> New Sale</button>
+            <button class="secondary-btn" onclick="downloadPartyStatementPDF()"><i class="ph-bold ph-file-pdf"></i> Statement PDF</button>
+          </div>
+        </div>
+        <div class="profile-card">
+          <div class="profile-avatar" id="prof-avatar">--</div>
+          <div class="profile-info"><h3 id="prof-name">Name</h3><p><i class="ph-bold ph-phone"></i> <span id="prof-phone">...</span></p><span id="prof-type-badge" class="category-badge" style="background:var(--soft);">Type</span></div>
+          <div class="profile-balance"><div class="profile-balance-label">Current Due Balance</div><div class="profile-balance-val" id="prof-due">৳ 0</div></div>
+        </div>
+        <div class="ecosystem-layout">
+          <div class="eco-panel">
+            <div class="eco-header"><h3><i class="ph-fill ph-shopping-cart"></i> Orders History</h3></div>
+            <div class="eco-body" id="prof-order-list" style="max-height: 400px; overflow-y:auto; padding:16px;"></div>
+          </div>
+          <div class="eco-panel">
+            <div class="eco-header"><h3><i class="ph-fill ph-bank"></i> Statement</h3><button class="btn-stock" style="background:var(--ink); color:#fff;" onclick="openTransModalFromProfile()"><i class="ph-bold ph-coins"></i> Receive Pay</button></div>
+            <div class="eco-body" style="max-height: 400px; overflow-y:auto;">
+              <table style="width:100%; border-collapse:collapse; font-size:12px;"><thead style="background:var(--soft);"><tr><th style="padding:10px;text-align:left;">Date</th><th style="padding:10px;text-align:left;">Desc</th><th style="padding:10px;text-align:right;">Bill</th><th style="padding:10px;text-align:right;">Pay</th><th style="padding:10px;text-align:right;">Balance</th></tr></thead><tbody id="prof-history-list"></tbody></table>
+            </div>
+          </div>
+        </div>
       </section>
 
-      <!-- MODULE 5: PAYROLL -->
+      <!-- 🌟 PRODUCTS 🌟 -->
+      <section id="module-products" class="module">
+        <div class="module-header">
+          <h2><i class="ph-fill ph-sneaker"></i> Product List (তৈরি জুতো)</h2>
+          <div class="header-actions">
+            <button class="success-btn" onclick="openSaleModal()"><i class="ph-bold ph-shopping-cart"></i> New POS Sale</button>
+            <button class="primary-btn" onclick="openProductModal()"><i class="ph-bold ph-plus"></i> Add Product</button>
+          </div>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-val" id="prod-total-items">0</div><div class="stat-label">Unique Products</div></div>
+          <div class="stat-card"><div class="stat-val" id="prod-total-qty">0</div><div class="stat-label">Pairs in Stock</div></div>
+          <div class="stat-card"><div class="stat-val" id="prod-total-value" style="color:var(--green)">৳ 0</div><div class="stat-label">Total Stock Value</div></div>
+        </div>
+        <div class="table-container">
+          <table class="data-table"><thead><tr><th>Product Name</th><th style="text-align: right;">Unit Price</th><th style="text-align: right;">Current Stock</th><th style="text-align: right;">Total Value</th><th style="text-align: right;">Action</th></tr></thead><tbody id="product-list"></tbody></table>
+        </div>
+      </section>
+
+      <!-- 🌟 RAW MATERIALS 🌟 -->
+      <section id="module-inventory" class="module">
+        <div class="module-header">
+          <h2><i class="ph-fill ph-package"></i> Raw Materials (কাঁচামাল)</h2>
+          <button class="primary-btn" onclick="openInvItemModal()"><i class="ph-bold ph-plus"></i> Add Material</button>
+        </div>
+        <div class="table-container">
+          <table class="data-table"><thead><tr><th>Material Name</th><th style="text-align: right;">Stock</th><th style="text-align: center;">Status</th><th style="text-align: right;">Action</th></tr></thead><tbody id="inventory-list"></tbody></table>
+        </div>
+      </section>
+
+      <!-- 🌟 PAYROLL 🌟 -->
       <section id="module-payroll" class="module">
-        <h2>👥 Staff Payroll</h2>
-        <p>Coming soon...</p>
+        <div class="module-header">
+          <h2><i class="ph-fill ph-users-three"></i> Staff & Payroll</h2>
+          <button class="primary-btn" onclick="openStaffModal()"><i class="ph-bold ph-user-plus"></i> Add Staff</button>
+        </div>
+        <div class="table-container">
+          <table class="data-table"><thead><tr><th>Staff Name & Role</th><th style="text-align: center;">Base / Rate</th><th style="text-align: right;">Earned</th><th style="text-align: right;">Advance</th><th style="text-align: right;">Net Payable</th><th style="text-align: right;">Action</th></tr></thead><tbody id="staff-list"></tbody></table>
+        </div>
       </section>
 
-      <!-- MODULE 6: CASH & BANK -->
-      <section id="module-cashbank" class="module">
-        <h2>🏦 Cash & Bank</h2>
-        <p>Coming soon...</p>
+      <!-- 🌟 EXPENSES 🌟 -->
+      <section id="module-expense" class="module">
+        <div class="module-header">
+          <h2><i class="ph-fill ph-receipt"></i> Daily Expenses</h2>
+          <button class="primary-btn" onclick="openExpenseModal()"><i class="ph-bold ph-plus"></i> Add Expense</button>
+        </div>
+        <div class="table-container">
+          <table class="data-table"><thead><tr><th>Date</th><th>Category</th><th>Description & Spender</th><th style="text-align: right;">Amount</th><th style="text-align: center;">Action</th></tr></thead><tbody id="expense-list"></tbody></table>
+        </div>
       </section>
 
     </div>
   </main>
 </div>
 
+<!-- ════ MODALS ════ -->
+
+<!-- 🌟 POS CART / SALE MODAL 🌟 -->
+<div class="modal-overlay" id="sale-modal">
+  <div class="modal-box" style="max-width: 650px;">
+    <div class="modal-title"><i class="ph-fill ph-shopping-cart"></i> POS - Create Sale / Bill</div>
+    
+    <div class="form-group flex-row">
+      <div><label>Select Customer</label><select id="sale-customer" class="login-input" style="font-weight:600; border:1px solid var(--accent);"></select></div>
+      <div><label>Date</label><input type="date" id="sale-date" class="login-input"></div>
+    </div>
+    
+    <div style="background:var(--soft); padding:16px; border-radius:8px; margin-bottom:16px; border:1px solid var(--line);">
+        <label style="font-size:11px; font-weight:bold; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-bottom:8px; display:block;">Add Items to Bill</label>
+        <div class="form-group"><select id="sale-product" class="login-input" onchange="autoFillSalePrice()" style="margin-bottom:8px;"></select></div>
+        <div class="form-group flex-row" style="margin-bottom:0;">
+          <div><input type="number" id="sale-qty" class="login-input" placeholder="Qty" min="1" style="margin-bottom:0;"></div>
+          <div><input type="number" id="sale-price" class="login-input" placeholder="Price ৳" style="margin-bottom:0;"></div>
+          <div><button class="primary-btn" style="width:100%; justify-content:center; padding:12px;" onclick="addToCart()">Add <i class="ph-bold ph-plus"></i></button></div>
+        </div>
+    </div>
+
+    <!-- CART TABLE -->
+    <table class="cart-table">
+        <thead><tr><th>Item</th><th style="text-align:center;">Qty</th><th style="text-align:right;">Price</th><th style="text-align:right;">Total</th><th></th></tr></thead>
+        <tbody id="cart-list"></tbody>
+    </table>
+
+    <div style="background:#fcfbfa; padding:16px; border-radius:8px; border:1px solid var(--line); font-size:13px; margin-bottom:24px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>Sub Total:</span><span id="cart-subtotal" style="font-weight:bold;">৳ 0</span></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px; align-items:center;">
+            <span>Discount: <input type="number" id="sale-discount" class="login-input" placeholder="0" style="padding:4px; width:80px; margin:0;" oninput="updateCartUI()"></span>
+            <span id="cart-discount" style="color:var(--red); font-weight:bold;">- ৳ 0</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:18px; border-top:1px dashed #ccc; padding-top:8px; margin-bottom:8px; color:var(--accent);"><span>Grand Total:</span><span id="cart-grandtotal">৳ 0</span></div>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span>Instant Paid: <input type="number" id="sale-paid" class="login-input" placeholder="0" style="padding:4px; width:80px; margin:0;" oninput="updateCartUI()"></span>
+            <span id="cart-paid" style="color:var(--green); font-weight:bold;">৳ 0</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-top:8px; font-weight:bold;"><span>Due Amount:</span><span id="cart-due">৳ 0</span></div>
+    </div>
+
+    <div class="modal-actions">
+        <button class="modal-cancel" onclick="closeSaleModal()">Cancel</button>
+        <button class="success-btn" onclick="processPOSSale()"><i class="ph-bold ph-check"></i> Complete Sale</button>
+    </div>
+  </div>
+</div>
+
+<!-- Basic Modals -->
+<div class="modal-overlay" id="product-modal"><div class="modal-box"><div class="modal-title"><i class="ph-fill ph-sneaker"></i> Add Product</div><div class="form-group"><label>Name</label><input type="text" id="prod-name" list="prod-name-list" class="login-input"></div><div class="form-group flex-row"><div><label>Price</label><input type="number" id="prod-price" class="login-input"></div><div><label>Unit</label><input type="text" id="prod-unit" class="login-input" value="Pairs"></div></div><div class="form-group"><label>Stock</label><input type="number" id="prod-qty" class="login-input"></div><div class="modal-actions"><button class="modal-cancel" onclick="closeProductModal()">Cancel</button><button class="modal-confirm" onclick="saveProduct()">Save</button></div></div></div>
+<div class="modal-overlay" id="inv-item-modal"><div class="modal-box"><div class="modal-title"><i class="ph-fill ph-package"></i> Add Material</div><div class="form-group"><label>Name</label><input type="text" id="inv-name" list="inv-name-list" class="login-input"></div><div class="form-group flex-row"><div><label>Unit</label><input type="text" id="inv-unit" class="login-input" value="Kg"></div><div><label>Stock</label><input type="number" id="inv-qty" class="login-input"></div></div><div class="modal-actions"><button class="modal-cancel" onclick="closeInvItemModal()">Cancel</button><button class="modal-confirm" onclick="saveInvItem()">Save</button></div></div></div>
+<div class="modal-overlay" id="inv-stock-modal"><div class="modal-box"><div class="modal-title"><i class="ph-fill ph-arrows-left-right"></i> Update Stock</div><input type="hidden" id="stock-item-id"><input type="hidden" id="stock-item-type"><div class="form-group"><label>Action</label><select id="stock-action" class="login-input"><option value="IN">IN (+)</option><option value="OUT">OUT (-)</option></select></div><div class="form-group"><label>Qty</label><input type="number" id="stock-qty" class="login-input"></div><div class="modal-actions"><button class="modal-cancel" onclick="closeStockModal()">Cancel</button><button class="modal-confirm" onclick="applyStockUpdate()">Update</button></div></div></div>
+<div class="modal-overlay" id="expense-modal"><div class="modal-box"><div class="modal-title"><i class="ph-fill ph-receipt"></i> Add Expense</div><div class="form-group"><label>Date</label><input type="date" id="exp-date" class="login-input"></div><div class="form-group"><label>Category</label><input type="text" id="exp-category" list="exp-category-list" class="login-input"></div><div class="form-group flex-row"><div><label>Spender</label><input type="text" id="exp-spender" list="exp-spender-list" class="login-input"></div><div><label>Amount</label><input type="number" id="exp-amount" class="login-input"></div></div><div class="modal-actions"><button class="modal-cancel" onclick="closeExpenseModal()">Cancel</button><button class="modal-confirm" onclick="saveExpense()">Save</button></div></div></div>
+<div class="modal-overlay" id="ledger-party-modal"><div class="modal-box"><div class="modal-title"><i class="ph-fill ph-user-circle-plus"></i> Add Party</div><div class="form-group"><label>Name</label><input type="text" id="ldg-name" list="ledger-name-list" class="login-input"></div><div class="form-group flex-row"><div><label>Type</label><select id="ldg-type" class="login-input"><option value="Customer">Customer</option><option value="Supplier">Supplier</option></select></div><div><label>Due</label><input type="number" id="ldg-due" class="login-input" placeholder="0"></div></div><div class="modal-actions"><button class="modal-cancel" onclick="closeLedgerModal()">Cancel</button><button class="modal-confirm" onclick="saveLedgerParty()">Save</button></div></div></div>
+<div class="modal-overlay" id="ledger-trans-modal"><div class="modal-box"><div class="modal-title"><i class="ph-fill ph-coins"></i> Transact</div><input type="hidden" id="trans-party-id"><div class="form-group flex-row"><div><label>Date</label><input type="date" id="trans-date" class="login-input"></div><div><label>Type</label><select id="trans-type" class="login-input"><option value="RECEIVE">Receive Pay (-)</option><option value="ADD_DUE">Add Bill (+)</option></select></div></div><div class="form-group"><label>Amount</label><input type="number" id="trans-amt" class="login-input"></div><div class="modal-actions"><button class="modal-cancel" onclick="closeTransModal()">Cancel</button><button class="modal-confirm" onclick="saveManualPayment()">Confirm</button></div></div></div>
+<div class="modal-overlay" id="staff-modal"><div class="modal-box"><div class="modal-title"><i class="ph-fill ph-user-plus"></i> Add Staff</div><div class="form-group"><label>Name</label><input type="text" id="stf-name" class="login-input"></div><div class="form-group flex-row"><div><label>Role</label><select id="stf-role" class="login-input"><option value="Piece-Rate">Piece-Rate</option><option value="Fixed Salary">Fixed Salary</option></select></div><div><label>Rate/Salary</label><input type="number" id="stf-rate" class="login-input"></div></div><div class="form-group"><label>Advance</label><input type="number" id="stf-advance" class="login-input" placeholder="0"></div><div class="modal-actions"><button class="modal-cancel" onclick="closeStaffModal()">Cancel</button><button class="modal-confirm" onclick="saveStaff()">Save</button></div></div></div>
+
 <!-- TOAST -->
 <div class="toast" id="toast"><i class="ph-fill ph-info"></i> <span id="toast-msg"></span></div>
 
-<!-- FIREBASE & LOGIC -->
+<!-- FIREBASE & JS LOGIC -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
   import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  import { getFirestore, collection, doc, setDoc, getDocs, deleteDoc, query } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-  // Using your exact Firebase Config
-  const firebaseConfig = {
-    apiKey: "AIzaSyDqrZ85kxTp9ByuHdTy9R5WCZk44ItOO20",
-    authDomain: "kitoomemo-a767f.firebaseapp.com",
-    projectId: "kitoomemo-a767f",
-    storageBucket: "kitoomemo-a767f.firebasestorage.app",
-    messagingSenderId: "790537793318",
-    appId: "1:790537793318:web:dadc6dce25de68c5dbdbe7"
-  };
+  const firebaseConfig = { apiKey: "AIzaSyDqrZ85kxTp9ByuHdTy9R5WCZk44ItOO20", authDomain: "kitoomemo-a767f.firebaseapp.com", projectId: "kitoomemo-a767f", storageBucket: "kitoomemo-a767f.firebasestorage.app", messagingSenderId: "790537793318", appId: "1:790537793318:web:dadc6dce25de68c5dbdbe7" };
+  const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+  let inventory = [], products = [], ledgers = [], expenses = [], staffList = [], salesList = [];
+  let posCart = []; 
+  let currentProfileId = null;
 
-  /* --- AUTH LOGIC --- */
-  onAuthStateChanged(auth, (user) => {
+  /* --- AUTH & INIT --- */
+  onAuthStateChanged(auth, async (user) => {
     if (user) {
-      document.getElementById('screen-login').classList.remove('active-screen');
-      document.getElementById('screen-app').classList.add('active-screen');
-      setCurrentDate();
+      document.getElementById('screen-login').classList.remove('active-screen'); document.getElementById('screen-app').classList.add('active-screen'); setCurrentDate(); 
+      showToast('Syncing Ecosystem Data...');
+      await loadAllData();
     } else {
-      document.getElementById('screen-app').classList.remove('active-screen');
-      document.getElementById('screen-login').classList.add('active-screen');
+      document.getElementById('screen-app').classList.remove('active-screen'); document.getElementById('screen-login').classList.add('active-screen');
     }
   });
 
-  window.handleLogin = async () => {
-    const email = document.getElementById('login-email').value;
-    const pass = document.getElementById('login-password').value;
-    if(!email || !pass) { showToast('Email & Password required'); return; }
-    try {
-      showToast('Logging in...');
-      await signInWithEmailAndPassword(auth, email, pass);
-    } catch (e) {
-      showToast('Login Failed! Check credentials.');
-    }
-  };
+  window.handleLogin = async () => { const e = document.getElementById('login-email').value, p = document.getElementById('login-password').value; if(e&&p) try { await signInWithEmailAndPassword(auth, e, p); } catch(err) { showToast('Login Failed!'); } };
+  window.handleLogout = async () => { try { await signOut(auth); } catch(e){} };
+  window.switchModule = function(m, t, el) { document.querySelectorAll('.module').forEach(x => x.classList.remove('active')); document.getElementById('module-'+m).classList.add('active'); document.getElementById('page-title').textContent=t; if(el){ document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active')); el.classList.add('active'); } document.getElementById('sidebar').classList.remove('mobile-open'); }
+  window.toggleSidebar = function() { document.getElementById('sidebar').classList.toggle('mobile-open'); }
+  function setCurrentDate() { document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', { weekday:'short', year:'numeric', month:'short', day:'numeric' }); }
+  window.showToast = function(msg) { const t = document.getElementById('toast'); document.getElementById('toast-msg').textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
 
-  window.handleLogout = async () => { try { await signOut(auth); } catch (e) {} };
-
-  /* --- SPA NAVIGATION LOGIC --- */
-  window.switchModule = function(moduleId, title, element) {
-    // 1. Hide all modules
-    document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
-    // 2. Show target module
-    document.getElementById('module-' + moduleId).classList.add('active');
-    
-    // 3. Update topbar title
-    document.getElementById('page-title').textContent = title;
-
-    // 4. Update sidebar active state
-    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-    element.classList.add('active');
-
-    // 5. Close sidebar on mobile after clicking
-    document.getElementById('sidebar').classList.remove('mobile-open');
+  /* 🌟 GLOBAL DATA LOADER 🌟 */
+  async function loadAllData() {
+      const [iS, pS, lS, eS, sS, saS] = await Promise.all([
+          getDocs(query(collection(db, "inventory"))), getDocs(query(collection(db, "products"))),
+          getDocs(query(collection(db, "ledgers"))), getDocs(query(collection(db, "expenses"))),
+          getDocs(query(collection(db, "staff"))), getDocs(query(collection(db, "sales")))
+      ]);
+      inventory = iS.docs.map(d => d.data()); products = pS.docs.map(d => d.data());
+      ledgers = lS.docs.map(d => d.data()); expenses = eS.docs.map(d => d.data());
+      staffList = sS.docs.map(d => d.data()); salesList = saS.docs.map(d => d.data());
+      
+      updateUniversalSuggestions(); renderAll();
   }
 
-  /* --- UI HELPERS --- */
-  window.toggleSidebar = function() {
-    document.getElementById('sidebar').classList.toggle('mobile-open');
+  function renderAll() {
+      renderInventory(); renderProducts(); renderLedgers(); renderExpenses(); renderPayroll(); renderSales(); updateDashboardStats();
   }
 
-  function setCurrentDate() {
-    const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
-    document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', options);
+  function updateUniversalSuggestions() {
+      const nList = new Set();
+      inventory.forEach(i => { if(i.name) nList.add(i.name); });
+      products.forEach(p => { if(p.name) nList.add(p.name); });
+      ledgers.forEach(l => { if(l.name) nList.add(l.name); });
+      document.getElementById('inv-name-list').innerHTML = Array.from(nList).map(v => `<option value="${v}">`).join('');
+      document.getElementById('prod-name-list').innerHTML = Array.from(nList).map(v => `<option value="${v}">`).join('');
+      document.getElementById('ledger-name-list').innerHTML = Array.from(nList).map(v => `<option value="${v}">`).join('');
   }
 
-  window.showToast = function(msg) {
-    const t = document.getElementById('toast');
-    document.getElementById('toast-msg').textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2500);
+  window.updateDashboardStats = function() {
+      let tD=0, oC=0, tV=0, mE=0, tA=0; const cm = new Date().getMonth(), cy = new Date().getFullYear();
+      ledgers.forEach(p => { if(p.type === 'Customer') tD += p.totalDue; });
+      products.forEach(p => { if(p.qty > 0) tV += (p.price * p.qty); });
+      expenses.forEach(e => { const d = new Date(e.date); if(d.getMonth()===cm && d.getFullYear()===cy) mE += e.amount; });
+      staffList.forEach(s => { tA += s.advanceBalance; });
+      if(document.getElementById('dash-market-due')) {
+          document.getElementById('dash-market-due').textContent = `৳ ${tD.toLocaleString()}`;
+          document.getElementById('dash-stock-val').textContent = `৳ ${tV.toLocaleString()}`;
+          document.getElementById('dash-month-exp').textContent = `৳ ${mE.toLocaleString()}`;
+          document.getElementById('dash-staff-adv').textContent = `৳ ${tA.toLocaleString()}`;
+      }
   }
+
+  /* 🌟 POS CART LOGIC 🌟 */
+  window.openSaleModal = function(presetId = null) {
+      document.getElementById('sale-date').valueAsDate = new Date();
+      posCart = []; updateCartUI();
+      
+      const cs = document.getElementById('sale-customer');
+      cs.innerHTML = '<option value="">-- Select Customer --</option>';
+      ledgers.filter(x => x.type === 'Customer').forEach(l => { cs.innerHTML += `<option value="${l.id}">${l.name}</option>`; });
+      if(presetId) cs.value = presetId; else if (currentProfileId) cs.value = currentProfileId;
+
+      const ps = document.getElementById('sale-product');
+      ps.innerHTML = '<option value="">-- Select Product --</option>';
+      products.forEach(p => { ps.innerHTML += `<option value="${p.id}" data-price="${p.price||0}" data-stock="${p.qty}">${p.name} (St: ${p.qty})</option>`; });
+      
+      document.getElementById('sale-modal').classList.add('show');
+  }
+  window.openSaleModalFromProfile = function() { openSaleModal(currentProfileId); }
+  window.closeSaleModal = function() { document.getElementById('sale-modal').classList.remove('show'); }
+  window.autoFillSalePrice = function() { const s = document.getElementById('sale-product'); if(s.selectedIndex > 0) document.getElementById('sale-price').value = s.options[s.selectedIndex].getAttribute('data-price'); }
+  
+  window.addToCart = function() {
+      const pId = document.getElementById('sale-product').value;
+      if(!pId) return showToast('Select a product!');
+      const s = document.getElementById('sale-product');
+      const name = s.options[s.selectedIndex].text.split(' (')[0];
+      const qty = parseFloat(document.getElementById('sale-qty').value) || 0;
+      const price = parseFloat(document.getElementById('sale-price').value) || 0;
+      
+      if(qty <= 0) return showToast('Enter valid quantity');
+      const pData = products.find(x => x.id === pId);
+      if(!pData || pData.qty < qty) return showToast('Not enough stock!');
+      
+      const eIdx = posCart.findIndex(x => x.productId === pId);
+      if(eIdx !== -1) {
+          if(pData.qty < (posCart[eIdx].qty + qty)) return showToast('Stock exceeded!');
+          posCart[eIdx].qty += qty; posCart[eIdx].total = posCart[eIdx].qty * posCart[eIdx].price;
+      } else { posCart.push({ productId: pId, productName: name, qty, price, total: qty * price }); }
+      
+      document.getElementById('sale-qty').value = ''; updateCartUI();
+  }
+  
+  window.removeFromCart = function(i) { posCart.splice(i, 1); updateCartUI(); }
+  
+  window.updateCartUI = function() {
+      const tb = document.getElementById('cart-list'); tb.innerHTML = ''; let sub = 0;
+      posCart.forEach((item, i) => {
+          sub += item.total;
+          tb.innerHTML += `<tr><td style="font-weight:bold">${item.productName}</td><td style="text-align:center">${item.qty}</td><td style="text-align:right">${item.price}</td><td style="text-align:right;font-weight:bold;">${item.total.toLocaleString()}</td><td style="text-align:right;"><button class="action-btn del" style="padding:2px;font-size:14px;" onclick="removeFromCart(${i})"><i class="ph-bold ph-x"></i></button></td></tr>`;
+      });
+      if(posCart.length === 0) tb.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--muted); padding:10px;">Cart is empty</td></tr>`;
+      
+      const dis = parseFloat(document.getElementById('sale-discount').value) || 0;
+      const paid = parseFloat(document.getElementById('sale-paid').value) || 0;
+      const grand = sub - dis; const due = grand - paid;
+      
+      document.getElementById('cart-subtotal').textContent = `৳ ${sub.toLocaleString()}`;
+      document.getElementById('cart-discount').textContent = `- ৳ ${dis.toLocaleString()}`;
+      document.getElementById('cart-grandtotal').textContent = `৳ ${grand.toLocaleString()}`;
+      document.getElementById('cart-paid').textContent = `৳ ${paid.toLocaleString()}`;
+      document.getElementById('cart-due').textContent = `৳ ${due.toLocaleString()}`;
+      document.getElementById('sale-total').value = grand; 
+  }
+
+  window.processPOSSale = async function() {
+      const cId = document.getElementById('sale-customer').value;
+      if(!cId) return showToast('Select a customer!');
+      if(posCart.length === 0) return showToast('Cart is empty!');
+      
+      const dt = document.getElementById('sale-date').value || new Date().toISOString().split('T')[0];
+      const dis = parseFloat(document.getElementById('sale-discount').value) || 0;
+      const paid = parseFloat(document.getElementById('sale-paid').value) || 0;
+      const sub = posCart.reduce((s, i) => s + i.total, 0);
+      const grand = sub - dis; const due = grand - paid;
+      const invId = 'INV-' + Date.now();
+      
+      const lIdx = ledgers.findIndex(x => x.id === cId);
+      
+      // Update DB Products & Ledger
+      for(let item of posCart) {
+          let pIdx = products.findIndex(x => x.id === item.productId);
+          products[pIdx].qty -= item.qty;
+          await setDoc(doc(db, "products", item.productId), products[pIdx]);
+          
+          if(!ledgers[lIdx].orders) ledgers[lIdx].orders = [];
+          ledgers[lIdx].orders.push({ id:'ord-'+Math.random().toString(36).substr(2,9), invId, date: dt, productId: item.productId, productName: item.productName, qty: item.qty, price: item.price, total: item.total });
+      }
+      
+      if(!ledgers[lIdx].history) ledgers[lIdx].history = [];
+      ledgers[lIdx].totalDue += grand;
+      ledgers[lIdx].history.push({ id:'hst-'+Date.now(), date: dt, type:'ADD_DUE', note:`Invoice #${invId} (${posCart.length} Items)`, amount: grand, balance: ledgers[lIdx].totalDue });
+      
+      if(paid > 0) {
+          ledgers[lIdx].totalDue -= paid;
+          ledgers[lIdx].history.push({ id:'hst-p-'+Date.now(), date: dt, type:'RECEIVE', note:`Payment for #${invId}`, amount: paid, balance: ledgers[lIdx].totalDue });
+      }
+      
+      const sRec = { id: invId, date: dt, customerId: cId, customerName: ledgers[lIdx].name, items: [...posCart], subTotal: sub, discount: dis, grandTotal: grand, paid, due, createdAt: new Date().toISOString() };
+      salesList.push(sRec);
+      
+      await setDoc(doc(db, "sales", invId), sRec);
+      await setDoc(doc(db, "ledgers", cId), ledgers[lIdx]);
+      
+      closeSaleModal(); renderAll(); showToast('Sale Completed!');
+      if(currentProfileId === cId) viewPartyProfile(cId);
+      
+      if(confirm("Sale Successful! Print POS Receipt?")) printInvoicePOS(invId);
+  }
+
+  /* 🌟 SALES REPORT MODULE 🌟 */
+  window.renderSales = function() {
+      const tb = document.getElementById('sales-list'); tb.innerHTML = '';
+      const sr = [...salesList].sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+      sr.forEach(s => {
+          let stC = s.due <= 0 ? 'status-good' : 'status-low';
+          let stT = s.due <= 0 ? 'Paid' : 'Due';
+          let ism = s.items.map(i => `${i.qty}x ${i.productName}`).join(', '); if(ism.length > 35) ism = ism.substring(0, 35) + '...';
+          tb.innerHTML += `<tr><td><div style="font-weight:bold">${s.id}</div><div style="font-size:10px;color:var(--muted)">${new Date(s.date).toLocaleDateString()}</div></td><td><b>${s.customerName}</b></td><td style="font-size:11px;color:var(--muted)">${ism}</td><td class="amount-col">৳ ${s.grandTotal.toLocaleString()}</td><td style="text-align:center;"><span class="category-badge ${stC}">${stT}</span></td><td><div class="actions-cell" style="justify-content:flex-end;"><button class="btn-stock" style="color:var(--accent); border-color:var(--accent);" onclick="printInvoicePOS('${s.id}')"><i class="ph-bold ph-printer"></i> POS</button><button class="btn-stock" style="background:var(--ink);color:#fff;" onclick="printInvoiceA4('${s.id}')"><i class="ph-bold ph-file-pdf"></i> A4</button></div></td></tr>`;
+      });
+      if(!sr.length) tb.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 40px; color:var(--muted);">No sales recorded yet.</td></tr>`;
+  }
+
+  /* 🌟 PRINTING 🌟 */
+  window.printInvoicePOS = function(invId) {
+      const i = salesList.find(x => x.id === invId); if(!i) return;
+      let ih = i.items.map(x => `<div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px;"><span style="flex:2">${x.productName}</span><span style="flex:1;text-align:center;">${x.qty}x${x.price}</span><span style="flex:1;text-align:right;">${x.total}</span></div>`).join('');
+      let w = window.open('', '', 'width=350,height=600');
+      w.document.write(`<html><head><title>Receipt ${i.id}</title></head><body style="font-family:'Courier New', monospace; margin:0; padding:15px;"><h2 style="text-align:center; margin:0 0 5px;">Kitoo Footwear</h2><p style="text-align:center; font-size:11px; margin:0 0 15px;">Cash Memo<br>Date: ${new Date(i.date).toLocaleDateString()}<br>Inv: ${i.id}<br>Cust: <b>${i.customerName}</b></p><hr style="border:1px dashed #000; margin-bottom:10px;"><div style="display:flex; justify-content:space-between; font-size:11px; font-weight:bold; margin-bottom:5px;"><span style="flex:2">Item</span><span style="flex:1;text-align:center;">QtyxRate</span><span style="flex:1;text-align:right;">Total</span></div><hr style="border:1px dashed #000; margin-bottom:10px;">${ih}<hr style="border:1px dashed #000; margin:10px 0;"><div style="text-align:right; font-size:12px;">SubTotal: ৳ ${i.subTotal}</div><div style="text-align:right; font-size:12px;">Discount: -৳ ${i.discount}</div><div style="text-align:right; font-size:14px; font-weight:bold;">Grand Total: ৳ ${i.grandTotal}</div><div style="text-align:right; font-size:12px;">Paid: ৳ ${i.paid}</div><div style="text-align:right; font-size:12px;">Due: ৳ ${i.due}</div><hr style="border:1px dashed #000; margin:10px 0;"><p style="text-align:center; font-size:11px;">Thank You!</p><script>window.onload=function(){window.print();window.close();}<\/script></body></html>`); w.document.close();
+  }
+
+  window.printInvoiceA4 = function(invId) {
+      const i = salesList.find(x => x.id === invId); if(!i) return; showToast('Generating A4 PDF...');
+      const l = ledgers.find(x => x.id === i.customerId);
+      let ih = i.items.map((x, idx) => `<tr><td style="padding:10px; border-bottom:1px solid #ccc; text-align:center;">${idx+1}</td><td style="padding:10px; border-bottom:1px solid #ccc;"><b>${x.productName}</b></td><td style="padding:10px; border-bottom:1px solid #ccc; text-align:center;">${x.qty}</td><td style="padding:10px; border-bottom:1px solid #ccc; text-align:right;">৳ ${x.price}</td><td style="padding:10px; border-bottom:1px solid #ccc; text-align:right; font-weight:bold;">৳ ${x.total.toLocaleString()}</td></tr>`).join('');
+      const h = `<div style="display:flex; justify-content:space-between; margin-bottom:30px; align-items:flex-end;"><div><h3 style="margin:0 0 5px; font-size:18px;">Billed To:</h3><div style="font-weight:bold; font-size:16px;">${i.customerName}</div><div style="font-size:12px; color:#555;">Phone: ${l?l.phone:'N/A'}<br>Address: ${l?l.address:'N/A'}</div></div><div style="text-align:right;"><div style="font-size:14px; font-weight:bold; color:#b5451b;">Invoice #${i.id}</div><div style="font-size:12px; color:#555;">Date: ${new Date(i.date).toLocaleDateString('en-GB')}</div></div></div><table style="width:100%; border-collapse:collapse; font-size:13px; margin-bottom:20px;"><thead style="background:#111; color:#fff; text-transform:uppercase; font-size:10px;"><tr><th style="padding:12px; text-align:center;">SL</th><th style="padding:12px; text-align:left;">Product Description</th><th style="padding:12px; text-align:center;">Qty</th><th style="padding:12px; text-align:right;">Rate</th><th style="padding:12px; text-align:right;">Total Amount</th></tr></thead><tbody>${ih}</tbody></table><div style="display:flex; justify-content:flex-end;"><table style="width:250px; font-size:13px;"><tr><td style="padding:6px; color:#555;">Sub Total:</td><td style="padding:6px; text-align:right;">৳ ${i.subTotal.toLocaleString()}</td></tr><tr><td style="padding:6px; color:#555;">Discount:</td><td style="padding:6px; text-align:right; color:#c0392b;">- ৳ ${i.discount.toLocaleString()}</td></tr><tr style="font-weight:bold; font-size:16px;"><td style="padding:10px 6px; border-top:2px solid #ccc;">Grand Total:</td><td style="padding:10px 6px; border-top:2px solid #ccc; text-align:right; color:#b5451b;">৳ ${i.grandTotal.toLocaleString()}</td></tr><tr><td style="padding:6px; color:#555;">Paid Amount:</td><td style="padding:6px; text-align:right; color:#2a6b45;">৳ ${i.paid.toLocaleString()}</td></tr><tr style="font-weight:bold;"><td style="padding:6px;">Due Amount:</td><td style="padding:6px; text-align:right;">৳ ${i.due.toLocaleString()}</td></tr></table></div><div style="margin-top:50px; border-top:1px dashed #555; padding-top:10px; text-align:center; font-size:11px; color:#555;">Authorized Signature</div>`;
+      const w = document.createElement('div'); w.style.position='absolute'; w.style.left='-9999px'; w.innerHTML=`<div style="font-family:sans-serif; background:#fff; padding:30px; width:800px; color:#111;"><div style="text-align:center; margin-bottom:30px; border-bottom:2px solid #ccc; padding-bottom:15px;"><h1 style="font-size:28px; color:#b5451b; margin-bottom:5px;">Kitoo Footwear</h1><p style="font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#555;">TAX INVOICE</p></div>${h}</div>`; document.body.appendChild(w);
+      html2pdf().set({margin:0.4,filename:`Invoice_${i.id}.pdf`,html2canvas:{scale:2},jsPDF:{unit:'in',format:'a4',orientation:'portrait'}}).from(w).save().then(()=>document.body.removeChild(w));
+  }
+
+  /* ════ MINIFIED BASIC MODULES (Prod, Inv, Exp, Ldg, Staff) ════ */
+  window.openProductModal = function(){document.getElementById('prod-name').value='';document.getElementById('prod-price').value='';document.getElementById('prod-qty').value='';document.getElementById('product-modal').classList.add('show');}
+  window.closeProductModal = function(){document.getElementById('product-modal').classList.remove('show');}
+  window.saveProduct = async function(){const n=document.getElementById('prod-name').value.trim();if(!n)return;const u=document.getElementById('prod-unit').value||'Pairs',p=parseFloat(document.getElementById('prod-price').value)||0,q=parseFloat(document.getElementById('prod-qty').value)||0,idt={id:'prd-'+Date.now(),name:n,unit:u,price:p,qty:q};products.push(idt);closeProductModal();renderProducts();await setDoc(doc(db,"products",idt.id),idt);}
+  window.deleteProduct = async function(id){if(!confirm("Delete?"))return;products=products.filter(x=>x.id!==id);renderProducts();await deleteDoc(doc(db,"products",id));}
+  window.renderProducts = function(){const tb=document.getElementById('product-list');tb.innerHTML='';let tq=0,tv=0;const sr=[...products].sort((a,b)=>a.name.localeCompare(b.name));sr.forEach(i=>{let it=(i.price||0)*(i.qty||0);if(i.qty>0){tv+=it;tq+=i.qty;}tb.innerHTML+=`<tr><td><b>${i.name}</b></td><td class="amount-col">৳ ${i.price||0}</td><td class="amount-col">${i.qty} <small>${i.unit}</small></td><td class="amount-col" style="color:var(--green)">৳ ${it.toLocaleString()}</td><td><div class="actions-cell" style="justify-content:flex-end;"><button class="btn-stock" onclick="openStockModal('${i.id}','prod')">Update</button><button class="action-btn del" onclick="deleteProduct('${i.id}')"><i class="ph-bold ph-trash"></i></button></div></td></tr>`;});document.getElementById('prod-total-items').textContent=products.length;document.getElementById('prod-total-qty').textContent=tq;document.getElementById('prod-total-value').textContent=`৳ ${tv.toLocaleString()}`;updateDashboardStats();}
+  
+  window.openInvItemModal=function(){document.getElementById('inv-name').value='';document.getElementById('inv-qty').value='';document.getElementById('inv-item-modal').classList.add('show');}
+  window.closeInvItemModal=function(){document.getElementById('inv-item-modal').classList.remove('show');}
+  window.saveInvItem=async function(){const n=document.getElementById('inv-name').value.trim();if(!n)return;const u=document.getElementById('inv-unit').value||'Kg',q=parseFloat(document.getElementById('inv-qty').value)||0,idt={id:'inv-'+Date.now(),name:n,unit:u,qty:q,minStock:10};inventory.push(idt);closeInvItemModal();renderInventory();await setDoc(doc(db,"inventory",idt.id),idt);}
+  window.deleteInvItem=async function(id){if(!confirm("Delete?"))return;inventory=inventory.filter(x=>x.id!==id);renderInventory();await deleteDoc(doc(db,"inventory",id));}
+  window.renderInventory=function(){const tb=document.getElementById('inventory-list');tb.innerHTML='';[...inventory].sort((a,b)=>a.name.localeCompare(b.name)).forEach(i=>{tb.innerHTML+=`<tr><td><b>${i.name}</b></td><td class="amount-col">${i.qty} <small>${i.unit}</small></td><td style="text-align:center;"><span class="category-badge ${i.qty<=0?'status-out':'status-good'}">${i.qty<=0?'Out':'In Stock'}</span></td><td><div class="actions-cell" style="justify-content:flex-end;"><button class="btn-stock" onclick="openStockModal('${i.id}','inv')">Update</button><button class="action-btn del" onclick="deleteInvItem('${i.id}')"><i class="ph-bold ph-trash"></i></button></div></td></tr>`;});updateDashboardStats();}
+  
+  window.openStockModal=function(id,t){const a=t==='prod'?products:inventory,i=a.find(x=>x.id===id);if(!i)return;document.getElementById('stock-item-id').value=id;document.getElementById('stock-item-type').value=t;document.getElementById('stock-qty').value='';document.getElementById('inv-stock-modal').classList.add('show');}
+  window.closeStockModal=function(){document.getElementById('inv-stock-modal').classList.remove('show');}
+  window.applyStockUpdate=async function(){const id=document.getElementById('stock-item-id').value,t=document.getElementById('stock-item-type').value,a=document.getElementById('stock-action').value,q=parseFloat(document.getElementById('stock-qty').value);if(!q||q<=0)return;const arr=t==='prod'?products:inventory,cN=t==='prod'?"products":"inventory",i=arr.findIndex(x=>x.id===id);if(i===-1)return;if(a==='IN')arr[i].qty+=q;else arr[i].qty-=q;closeStockModal();if(t==='prod')renderProducts();else renderInventory();await setDoc(doc(db,cN,id),arr[i]);}
+  
+  window.openLedgerModal=function(){document.getElementById('ldg-name').value='';document.getElementById('ldg-due').value='';document.getElementById('ledger-party-modal').classList.add('show');}
+  window.closeLedgerModal=function(){document.getElementById('ledger-party-modal').classList.remove('show');}
+  window.saveLedgerParty=async function(){const n=document.getElementById('ldg-name').value.trim(),p=document.getElementById('ldg-phone').value||'',a=document.getElementById('ldg-address').value||'',d=parseFloat(document.getElementById('ldg-due').value)||0,ed=document.getElementById('ldg-date').value,t=document.getElementById('ldg-type').value;if(!n)return;let h=[];if(d>0)h.push({id:'h-'+Date.now(),date:new Date().toISOString().split('T')[0],type:'ADD_DUE',note:'Opening Due',amount:d,balance:d});const pt={id:'ldg-'+Date.now(),name:n,phone:p,type:t,address:a,totalDue:d,expectedDate:ed,orders:[],history:h,createdAt:new Date().toISOString()};ledgers.push(pt);closeLedgerModal();renderLedgers();await setDoc(doc(db,"ledgers",pt.id),pt);}
+  window.deleteLedger=async function(id){if(!confirm("Delete?"))return;ledgers=ledgers.filter(x=>x.id!==id);renderLedgers();await deleteDoc(doc(db,"ledgers",id));}
+  window.renderLedgers=function(){const tb=document.getElementById('ledger-list');tb.innerHTML='';let tD=0,bC=0;const s=(document.getElementById('ldg-search')?.value||'').toLowerCase(),f=document.getElementById('ldg-filter')?.value||'All';const fl=ledgers.filter(p=>(p.name.toLowerCase().includes(s)||p.phone?.includes(s))&&(f==='All'||p.type===f));const sr=[...fl].sort((a,b)=>a.name.localeCompare(b.name));sr.forEach(p=>{tD+=p.totalDue;const w=p.totalDue>0&&p.expectedDate&&p.expectedDate<new Date().toISOString().split('T')[0];if(w)bC++;const[bg,tx]=getBadgeColor(p.name);const tr=document.createElement('tr');tr.className='clickable';tr.onclick=function(e){if(!e.target.closest('.actions-cell'))viewPartyProfile(p.id);};tr.innerHTML=`<td><div style="display:flex;align-items:center;gap:12px;"><div style="width:36px;height:36px;border-radius:50%;background:${bg};color:${tx};display:flex;align-items:center;justify-content:center;font-weight:700;">${p.name.substring(0,2).toUpperCase()}</div><div><b>${p.name}</b><br><small>${p.type}</small></div></div></td><td><small>${p.address||'—'}</small></td><td class="amount-col">৳ ${p.totalDue.toLocaleString()}</td><td style="text-align:center;"><small>${p.expectedDate||'Not Set'}</small></td><td style="text-align:center;"><span class="category-badge ${w?'status-out':'status-good'}">${w?'Overdue':(p.totalDue>0?'Due':'Paid')}</span></td><td><div class="actions-cell" style="justify-content:flex-end;"><button class="action-btn del" onclick="deleteLedger('${p.id}')"><i class="ph-bold ph-trash"></i></button></div></td>`;tb.appendChild(tr);});document.getElementById('ldg-total-parties').textContent=fl.length;document.getElementById('ldg-bad-rating').textContent=bC;document.getElementById('ldg-total-due').textContent=`৳ ${tD.toLocaleString()}`;updateDashboardStats();}
+  window.viewPartyProfile=function(id){const p=ledgers.find(x=>x.id===id);if(!p)return;currentProfileId=id;document.getElementById('prof-name').textContent=p.name;document.getElementById('prof-phone').textContent=p.phone||'N/A';document.getElementById('prof-due').textContent=`৳ ${p.totalDue.toLocaleString()}`;const[bg,tx]=getBadgeColor(p.name);document.getElementById('prof-avatar').style.color=tx;document.getElementById('prof-avatar').textContent=p.name.substring(0,2).toUpperCase();document.getElementById('prof-order-list').innerHTML='';document.getElementById('prof-history-list').innerHTML='';[...(p.history||[])].sort((a,b)=>new Date(b.date)-new Date(a.date)).forEach(h=>{const iA=h.type==='ADD_DUE';document.getElementById('prof-history-list').innerHTML+=`<tr><td>${new Date(h.date).toLocaleDateString()}</td><td>${h.note}</td><td style="text-align:right">${iA?h.amount:''}</td><td style="text-align:right">${!iA?h.amount:''}</td><td style="text-align:right">৳${h.balance}</td></tr>`;});switchModule('ledger-profile','Profile',null);}
+  window.backToLedgerList=function(){currentProfileId=null;switchModule('ledger','Ledger',document.querySelector('.nav-item:nth-child(3)'));}
+  window.openTransModalFromProfile=function(){document.getElementById('trans-date').valueAsDate=new Date();document.getElementById('trans-amt').value='';document.getElementById('ledger-trans-modal').classList.add('show');}
+  window.closeTransModal=function(){document.getElementById('ledger-trans-modal').classList.remove('show');}
+  window.saveManualPayment=async function(){const t=document.getElementById('trans-type').value,am=parseFloat(document.getElementById('trans-amt').value)||0;if(am<=0)return;const pI=ledgers.findIndex(x=>x.id===currentProfileId);if(t==='RECEIVE')ledgers[pI].totalDue-=am;else ledgers[pI].totalDue+=am;ledgers[pI].history.push({id:'h-'+Date.now(),date:document.getElementById('trans-date').value,type:t,note:'Manual Entry',amount:am,balance:ledgers[pI].totalDue});closeTransModal();viewPartyProfile(currentProfileId);await setDoc(doc(db,"ledgers",currentProfileId),ledgers[pI]);}
+
+  window.openExpenseModal=function(){document.getElementById('exp-date').valueAsDate=new Date();document.getElementById('exp-amount').value='';document.getElementById('expense-modal').classList.add('show');}
+  window.closeExpenseModal=function(){document.getElementById('expense-modal').classList.remove('show');}
+  window.saveExpense=async function(){const dt=document.getElementById('exp-date').value,ct=document.getElementById('exp-category').value.trim(),am=parseFloat(document.getElementById('exp-amount').value)||0;if(!dt||!ct||am<=0)return;const ex={id:'exp-'+Date.now(),date:dt,category:ct,desc:ct,amount:am};expenses.push(ex);closeExpenseModal();renderExpenses();await setDoc(doc(db,"expenses",ex.id),ex);}
+  function renderExpenses(){const tb=document.getElementById('expense-list');tb.innerHTML='';expenses.forEach(e=>{const[bg,tx]=getBadgeColor(e.category);tb.innerHTML+=`<tr><td>${e.date}</td><td><span class="category-badge" style="background:${bg};color:${tx}">${e.category}</span></td><td><b>${e.desc}</b></td><td class="amount-col">৳ ${e.amount.toLocaleString()}</td><td><div class="actions-cell" style="justify-content:flex-end;"><button class="action-btn del" onclick="deleteExpense('${e.id}')"><i class="ph-bold ph-trash"></i></button></div></td></tr>`;});updateDashboardStats();}
+  window.deleteExpense=async function(id){expenses=expenses.filter(x=>x.id!==id);renderExpenses();await deleteDoc(doc(db,"expenses",id));}
+
+  window.openStaffModal=function(){document.getElementById('stf-name').value='';document.getElementById('staff-modal').classList.add('show');}
+  window.closeStaffModal=function(){document.getElementById('staff-modal').classList.remove('show');}
+  window.saveStaff=async function(){const n=document.getElementById('stf-name').value.trim(),r=document.getElementById('stf-role').value,rt=parseFloat(document.getElementById('stf-rate').value)||0,a=parseFloat(document.getElementById('stf-advance').value)||0;if(!n)return;const sd={id:'stf-'+Date.now(),name:n,role:r,rate:rt,advanceBalance:a,earnedBalance:0,history:[]};staffList.push(sd);closeStaffModal();renderPayroll();await setDoc(doc(db,"staff",sd.id),sd);}
+  window.deleteStaff=async function(id){staffList=staffList.filter(x=>x.id!==id);renderPayroll();await deleteDoc(doc(db,"staff",id));}
+  window.renderPayroll=function(){const tb=document.getElementById('staff-list');tb.innerHTML='';staffList.forEach(s=>{const nt=s.earnedBalance-s.advanceBalance;tb.innerHTML+=`<tr><td><b>${s.name}</b><br><small>${s.role}</small></td><td style="text-align:center;">৳${s.rate}</td><td class="amount-col" style="color:var(--green)">৳ ${s.earnedBalance}</td><td class="amount-col" style="color:var(--red)">৳ ${s.advanceBalance}</td><td class="amount-col">৳ ${nt}</td><td><div class="actions-cell" style="justify-content:flex-end;"><button class="btn-stock" onclick="openStaffEntryModal('${s.id}')">Entry</button><button class="btn-stock" style="background:#111;color:#fff;" onclick="openStaffPayModal('${s.id}')">Pay</button></div></td></tr>`;});updateDashboardStats();}
+  window.openStaffEntryModal=function(id){const s=staffList.find(x=>x.id===id);document.getElementById('entry-stf-id').value=id;document.getElementById('entry-stf-type').value=s.role;document.getElementById('entry-stf-rate').value=s.rate;document.getElementById('entry-date').valueAsDate=new Date();document.getElementById('entry-qty').value='';document.getElementById('entry-earned').value='';document.getElementById('entry-adv').value='';document.getElementById('piece-rate-fields').style.display=s.role==='Piece-Rate'?'flex':'none';document.getElementById('staff-entry-modal').classList.add('show');}
+  window.closeStaffEntryModal=function(){document.getElementById('staff-entry-modal').classList.remove('show');}
+  window.calcEntryEarned=function(){document.getElementById('entry-earned').value=(parseFloat(document.getElementById('entry-qty').value)||0)*(parseFloat(document.getElementById('entry-stf-rate').value)||0);}
+  window.saveStaffEntry=async function(){const id=document.getElementById('entry-stf-id').value,a=parseFloat(document.getElementById('entry-adv').value)||0;let e=0;if(document.getElementById('entry-stf-type').value==='Piece-Rate') e=parseFloat(document.getElementById('entry-earned').value)||0;const i=staffList.findIndex(x=>x.id===id);staffList[i].advanceBalance+=a;staffList[i].earnedBalance+=e;closeStaffEntryModal();renderPayroll();await setDoc(doc(db,"staff",id),staffList[i]);}
+  window.openStaffPayModal=function(id){const s=staffList.find(x=>x.id===id);document.getElementById('pay-stf-id').value=id;document.getElementById('pay-date').valueAsDate=new Date();const np=s.earnedBalance-s.advanceBalance;document.getElementById('pay-net-amt').textContent=`৳ ${np}`;document.getElementById('pay-amt').value=np>0?np:0;document.getElementById('staff-pay-modal').classList.add('show');}
+  window.closeStaffPayModal=function(){document.getElementById('staff-pay-modal').classList.remove('show');}
+  window.processStaffPayment=async function(){const id=document.getElementById('pay-stf-id').value,a=parseFloat(document.getElementById('pay-amt').value)||0;if(a<=0)return;const i=staffList.findIndex(x=>x.id===id);staffList[i].earnedBalance-=a;closeStaffPayModal();renderPayroll();await setDoc(doc(db,"staff",id),staffList[i]);}
+
 </script>
-
 </body>
 </html>
